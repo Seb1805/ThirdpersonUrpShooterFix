@@ -8,6 +8,8 @@ public class CharacterAiming : MonoBehaviour
     public float turnSpeed = 15;
     public float aimDuration = 0.3f;
     Camera mainCamera;
+    RaycastWeapon weapon;
+
     public Rig aimLayer;
     // Start is called before the first frame update
     void Start()
@@ -15,6 +17,7 @@ public class CharacterAiming : MonoBehaviour
         mainCamera = Camera.main;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        weapon = GetComponentInChildren<RaycastWeapon>();
     }
 
     // Update is called once per frame
@@ -32,5 +35,19 @@ public class CharacterAiming : MonoBehaviour
             aimLayer.weight -= Time.deltaTime / aimDuration;
 
         }
+
+        //Only make muzzle flash when we are AIMING!
+        if(aimLayer.weight == 1)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                weapon.StartFiring();
+            }
+            if (Input.GetButtonUp("Fire1"))
+            {
+                weapon.StopFiring();
+            }
+        }
+
     }
 }
