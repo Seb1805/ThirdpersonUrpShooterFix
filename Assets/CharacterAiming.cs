@@ -36,13 +36,19 @@ public class CharacterAiming : MonoBehaviour
 
         }
 
-        //Only make muzzle flash when we are AIMING!
+        //Only make muzzle flash and shoot when we are AIMING!
         if(aimLayer.weight == 1)
         {
+            //Handle cooldown
             if (Input.GetButtonDown("Fire1"))
             {
                 weapon.StartFiring();
             }
+            if (weapon.isFiring)
+            {
+                weapon.UpdateFiring(Time.deltaTime);
+            }
+            weapon.UpdateBullets(Time.deltaTime);
             if (Input.GetButtonUp("Fire1"))
             {
                 weapon.StopFiring();
